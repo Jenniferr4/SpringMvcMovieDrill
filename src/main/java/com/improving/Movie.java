@@ -2,34 +2,42 @@ package com.improving;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import java.util.Collections;
-import java.util.List;
+import javax.persistence.*;
 
+@Entity(name = "movie")
 public class Movie {
-    private final int id;
-    private final String name;
-    private final String director;
-    private final String protagonist;
-    private final String year;
-    private final String review;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    private String title;
+
+    private String director;
+
+    private String protagonist;
+
+    private String year;
+
+    private String review;
 
 
-    @JsonCreator
-    public Movie(int id, String name, String author, String protagonist, String year, String review) {
-        this.id = id;
-        this.name = name;
-        this.director = author;
-        this.protagonist = protagonist;
-        this.year = year;
-        this.review = review;
-    }
+//    @JsonCreator
+//    public Movie(int id, String title, String author, String protagonist, String year, String review) {
+//        this.id = id;
+//        this.title = title;
+//        this.director = author;
+//        this.protagonist = protagonist;
+//        this.year = year;
+//        this.review = review;
+//    }
 
-    public int getId() {
+
+    public Integer getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public String getDirector() {
@@ -46,5 +54,29 @@ public class Movie {
 
     public String getReview() {
         return review;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public void setProtagonist(String protagonist) {
+        this.protagonist = protagonist;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
     }
 }

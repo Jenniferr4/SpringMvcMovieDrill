@@ -1,11 +1,18 @@
 package com.improving;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.awt.print.Book;
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.Random;
@@ -14,28 +21,31 @@ import java.util.Random;
 @RequestMapping
 public class SimpleController {
 
-    private MoviesRepository moviesRepository ;
+    @Autowired
+    private MoviesRepository moviesRepository;
 
-    public SimpleController(MoviesRepository moviesRepository){
-        this.moviesRepository = moviesRepository;
+
+    @GetMapping(path = "/movies")
+    public @ResponseBody Iterable<Movie> getAllMovies() {
+        return moviesRepository.findAll();
     }
 
-    @GetMapping("/movies")
-    public List<Movie> movies() {
-        return moviesRepository.getMovies();
+    @GetMapping("/movies/{id}")
+    public Movie findById(@PathVariable Integer id) {
+        return moviesRepository.findById(id).get();
     }
+
+    @PostMapping("/movies")
+    public ResponseEntity<Movie> createMovie(@RequestBody Movie movie){
+        Movie savedMovie = moviesRepository.save(movie);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(savedMovie.getId()).toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+
 }
 
 
-//    @RequestMapping(value = "/home", method= RequestMethod.GET)
-//    public String home(ModelMap model, Principal principal){
-//        model.put("movie", new Movie(0,"", "", "", "", ""));
-//        setCommonModelAttribute(model);
-//        return "home";
-//    }
-//
-//    private void setCommonModelAttribute(ModelMap model) {
-//        model.put("books", moviesRepository.getMovies());
-//    }
 
 
