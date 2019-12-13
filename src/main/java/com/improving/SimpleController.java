@@ -53,6 +53,11 @@ public class SimpleController {
     }
 
 
+    @DeleteMapping("/movies/{id}")
+    public void deleteMovie(@PathVariable Integer id) {
+        moviesRepository.deleteById(id);
+    }
+
 }
 
 
