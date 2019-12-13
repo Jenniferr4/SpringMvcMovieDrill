@@ -7,7 +7,8 @@ import javax.persistence.*;
 @Entity(name = "movie")
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name= "Id", unique=true)
     private Integer id;
 
     private String title;

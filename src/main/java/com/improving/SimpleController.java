@@ -36,7 +36,16 @@ public class SimpleController {
     }
 
     @PostMapping("/movies")
-    public ResponseEntity<Movie> createMovie(@RequestBody Movie movie){
+    public ResponseEntity<Movie> newMovie(@RequestBody Movie movie){
+        Movie savedMovie = moviesRepository.save(movie);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(savedMovie.getId()).toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+
+    @PutMapping("/movies/{id}")
+    public ResponseEntity<Movie> updateMovie(@RequestBody Movie movie, @PathVariable Integer id){
         Movie savedMovie = moviesRepository.save(movie);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedMovie.getId()).toUri();
