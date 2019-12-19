@@ -52,9 +52,9 @@ public class SimpleController {
         return ResponseEntity.created(location).build();
     }
 
-
     @DeleteMapping("/movies/{id}")
     public void deleteMovie(@PathVariable Integer id) {
+
         moviesRepository.deleteById(id);
     }
 
